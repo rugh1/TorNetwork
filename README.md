@@ -14,20 +14,20 @@ A project to set up and run a kinda Tor Network on localhost.
 ### here are some pictures:
 
 ## creating connection 
-![creating connection](screenshots/connection.png)
+![creating connection](screenshot/connection.png)
 
 
 ## sending data 
-![creating connection](screenshots/send.png)
+![creating connection](screenshot/send.png)
 
 
 ## closing connection 
-![closing connection](screenshots/closing.png)
+![closing connection](screenshot/closing.png)
 
 
 
 ### sequence diagram:
-![diagram](screenshots/diagram.png)
+![diagram](screenshot/diagram.png)
 
 
 
