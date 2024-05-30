@@ -4,7 +4,7 @@ import pickle
 
 QUEUE_SIZE = 10
 IP = '127.0.0.1'
-PORT = 25050
+PORT = 22353
 NODES_UP = []
 SOCKET_TIMEOUT = 3
 GET_LIST_CMD = 'GET LIST'
@@ -36,19 +36,22 @@ def handle_connection(client_socket, client_address):
         else:
             port = data
             NODES_UP.append(port)
+            print(port)
+            print(NODES_UP)
             client_socket.settimeout(SOCKET_TIMEOUT)
             try:
                 while True:
+                    print(NODES_UP)
                     data = client_socket.recv(100).decode()
                     if data == '':
                         break
                     print(NODES_UP, end="\r")
-
+                    print('aa')
             except Exception as err:
                 print(err)
             print('\n')
             NODES_UP.remove(port)
-        # handle the communication'
+        # handle the communication
 
     except socket.error as err:
         print('received socket exception - ' + str(err))
