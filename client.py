@@ -1,13 +1,17 @@
 import pickle
 import socket
 import random
+import logging
 
-QUEUE_SIZE = 10
 DIRECTORY_IP = ('127.0.0.1', 22353)
 MAX_PACKET = 4096
 GET_LIST_CMD = 'GET LIST'
 ECHO_PORT = 65432
 ROUTE_SIZE = 3
+
+LOG_FORMAT = '%(levelname)s | %(asctime)s | %(processName)s | CLIENT |  %(message)s'
+LOG_LEVEL = logging.DEBUG
+LOG_FILE = 'TorNetwork.log'
 
 
 def random_route(nodes_up):
@@ -67,8 +71,10 @@ def main():
     if route == 2:
         print('socket exception accorded while getting route')
         return
+    logging.debug(f'route decided target is {server} route is {route}')
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
+        logging.debug(f'setting route...')
         if set_route(client_socket, route):
             msg = input()
             while msg != 'close':
@@ -88,4 +94,5 @@ def main():
 
 if __name__ == "__main__":
     # Call the main handler function
+    logging.basicConfig(filename=LOG_FILE, level=LOG_LEVEL, format=LOG_FORMAT)
     main()

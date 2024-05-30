@@ -8,16 +8,7 @@ PORT = 22353
 NODES_UP = []
 SOCKET_TIMEOUT = 3
 GET_LIST_CMD = 'GET LIST'
-
-
-def recv(connected_socket):
-    data = connected_socket.recv(100).decode()
-    msg = data
-    while data != '':
-        data = connected_socket.recv(1).decode()
-        msg += data
-        print(msg)
-    return msg
+MAX_PACKET = 4096
 
 
 def handle_connection(client_socket, client_address):
@@ -29,7 +20,7 @@ def handle_connection(client_socket, client_address):
     """
     try:
         print(client_address[0] + ':' + str(client_address[1]) + ' is connected')
-        data = client_socket.recv(100).decode()
+        data = client_socket.recv(MAX_PACKET).decode()
         if data == GET_LIST_CMD:
             nodes_up = pickle.dumps(NODES_UP)
             client_socket.send(nodes_up)
@@ -42,7 +33,7 @@ def handle_connection(client_socket, client_address):
             try:
                 while True:
                     print(NODES_UP)
-                    data = client_socket.recv(100).decode()
+                    data = client_socket.recv(MAX_PACKET).decode()
                     if data == '':
                         break
                     print(NODES_UP, end="\r")

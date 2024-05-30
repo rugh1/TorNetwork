@@ -9,11 +9,16 @@ IP = '127.0.0.1'
 PORT = int(sys.argv[1])
 DIRECTORY_IP = ('127.0.0.1', 22353)
 MAX_PACKET = 4096
-
+TEST_MODE = True
 # Configuration for logging
 LOG_FORMAT = f'%(levelname)s | %(asctime)s | %(processName)s | NODE{PORT} |  %(message)s'
 LOG_LEVEL = logging.DEBUG
 LOG_FILE = 'TorNetwork.log'
+
+
+def delay(sec):
+    if TEST_MODE:
+        time.sleep(sec)
 
 
 def handle_connection(client_socket, client_address):
@@ -33,29 +38,29 @@ def handle_connection(client_socket, client_address):
         try:
             logging.debug(f'connecting to {port_to_send}')
             forward_socket.connect(('127.0.0.1', port_to_send))
-            time.sleep(0.05)
+            delay(0.05)
         except socket.error as err:
             logging.debug(f'connecting to {port_to_send} failed')
             client_socket.send(f'connection failed {str(err)}'.encode())
         try:
             logging.debug(f'sending OK back to {client_address}')
             client_socket.send('OK'.encode())
-            time.sleep(0.05)
+            delay(0.05)
             while True:
                 data = client_socket.recv(MAX_PACKET)  # msg from before
                 if data.decode() == '':
                     break
                 logging.debug(f'from {client_address} received {data.decode()}')
-                time.sleep(0.05)
+                delay(0.05)
                 logging.debug(f'sending encoded {data.decode()} to {port_to_send}')
                 forward_socket.send(data)  # forward to next
-                time.sleep(0.05)
+                delay(0.05)
                 ret = forward_socket.recv(MAX_PACKET)
                 logging.debug(f'from {port_to_send} received {ret.decode()}')
-                time.sleep(0.05)
+                delay(0.05)
                 logging.debug(f'returned encoded {ret.decode()} to {client_address}')
                 client_socket.send(ret)  # return answer
-                time.sleep(0.05)
+                delay(0.05)
         except socket.error as err:
             print('received socket exception - ' + str(err))
             logging.debug(f'received exception {str(err)}')

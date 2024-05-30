@@ -25,8 +25,9 @@ def handle_client(client_socket, client_address):
             print(f"Received {data.decode()} from {client_address}")
             logging.debug(f'received {data} from {client_address}')
             # Echo the data back to the client
+            logging.debug(f'sending {data} to {client_address}')
             client_socket.sendall(data)
-            logging.debug(f'sent {data} to {client_address}')
+
     print(f"Connection from {client_address} closed")
 
 
