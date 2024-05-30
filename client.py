@@ -42,6 +42,7 @@ def get_route(server):
 
 def set_route(client_socket, route):
     client_socket.connect(('127.0.0.1', route[0]))
+    print(route[0], 'OK')
     for i in range(1, len(route)):
         client_socket.send(f'CONNECT {route[i]}'.encode())
         data = client_socket.recv(MAX_PACKET).decode()
@@ -77,6 +78,8 @@ def main():
                 msg = input()
                 while msg == '':
                     msg = input()
+        else:
+            print('setting route failed')
     except socket.error as err:
         print('received socket exception - ' + str(err))
     finally:
