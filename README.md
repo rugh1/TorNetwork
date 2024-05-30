@@ -1,6 +1,8 @@
 # Tor Network Project
 
 A project to set up and run a kinda Tor Network on localhost.
+the main idea is about simulating the same concept as a Tor Network but only on the pc's local host 
+is uses each port as a different type of device required for the Tor Network
 
 ## how to setup:
 #### 1.run directory.py 
