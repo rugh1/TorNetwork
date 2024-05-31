@@ -1,6 +1,8 @@
 import socket
 from threading import Thread
 import pickle
+from protocol import *
+
 
 QUEUE_SIZE = 10
 IP = '127.0.0.1'
@@ -26,8 +28,9 @@ def handle_connection(client_socket, client_address):
             client_socket.send(nodes_up)
         else:
             port = data
-            NODES_UP.append(port)
-            print(port)
+            ip = f'{client_address[0]}:{port}'
+            NODES_UP.append(ip)
+            print(ip)
             print(NODES_UP)
             client_socket.settimeout(SOCKET_TIMEOUT)
             try:
@@ -37,11 +40,10 @@ def handle_connection(client_socket, client_address):
                     if data == '':
                         break
                     print(NODES_UP, end="\r")
-                    print('aa')
             except Exception as err:
                 print(err)
             print('\n')
-            NODES_UP.remove(port)
+            NODES_UP.remove(ip)
         # handle the communication
 
     except socket.error as err:

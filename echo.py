@@ -2,13 +2,14 @@ import os
 import socket
 import threading
 import logging
+from protocol import *
 
 
 IP = '127.0.0.1'
 PORT = 65432
 MAX_PACKET = 4096
 # Configuration for logging
-LOG_FORMAT = '%(levelname)s | %(asctime)s | %(processName)s | ECHO |  %(message)s'
+LOG_FORMAT = '%(asctime)s | ECHO |  %(message)s'
 LOG_LEVEL = logging.DEBUG
 LOG_FILE = 'TorNetwork.log'
 

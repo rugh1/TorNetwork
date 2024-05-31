@@ -9,13 +9,13 @@ GET_LIST_CMD = 'GET LIST'
 ECHO_PORT = 65432
 ROUTE_SIZE = 3
 
-LOG_FORMAT = '%(levelname)s | %(asctime)s | %(processName)s | CLIENT |  %(message)s'
+LOG_FORMAT = '%(asctime)s c| CLIENT |  %(message)s'
 LOG_LEVEL = logging.DEBUG
 LOG_FILE = 'TorNetwork.log'
 
 
 def random_route(nodes_up):
-    return list(map(lambda x: int(x), random.sample(nodes_up, ROUTE_SIZE)))
+    return list(map(lambda x: x, random.sample(nodes_up, ROUTE_SIZE)))
 
 
 def get_route(server):
@@ -31,7 +31,7 @@ def get_route(server):
             return 1
         route = random_route(nodes_up)
         print(route)
-        route.append(server)
+        route.append(f'{server}')
         client_socket.close()
         return route
     except socket.error as err:
@@ -45,7 +45,7 @@ def get_route(server):
 
 
 def set_route(client_socket, route):
-    client_socket.connect(('127.0.0.1', route[0]))
+    client_socket.connect((route[0].split(':')[0], int(route[0].split(':')[1])))
     print(route[0], 'OK')
     for i in range(1, len(route)):
         client_socket.send(f'CONNECT {route[i]}'.encode())
@@ -57,7 +57,7 @@ def set_route(client_socket, route):
 
 
 def main():
-    server = int(input('enter port to connect:'))
+    server = input('enter ip:port to connect:')
     route = get_route(server)
     print(route)
     if route == 0:

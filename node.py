@@ -3,6 +3,7 @@ import socket
 from threading import Thread
 import time
 import sys
+from protocol import *
 
 QUEUE_SIZE = 10
 IP = '127.0.0.1'
@@ -11,7 +12,7 @@ DIRECTORY_IP = ('127.0.0.1', 22353)
 MAX_PACKET = 4096
 TEST_MODE = True
 # Configuration for logging
-LOG_FORMAT = f'%(levelname)s | %(asctime)s | %(processName)s | NODE{PORT} |  %(message)s'
+LOG_FORMAT = f'%(asctime)s | NODE{PORT} |  %(message)s'
 LOG_LEVEL = logging.DEBUG
 LOG_FILE = 'TorNetwork.log'
 
@@ -31,13 +32,17 @@ def handle_connection(client_socket, client_address):
     try:
         print(client_address[0] + ':' + str(client_address[1]) + ' is connected')
 
-        data = client_socket.recv(MAX_PACKET).decode()  # protocol CONNECT PORT_TO_SEND
+        data = client_socket.recv(MAX_PACKET).decode()  # protocol CONNECT IP:PORT
         logging.debug(f'from {client_address} received {data}')
-        port_to_send = int(data.split()[1])
+        if 'CONNECT' not in data:
+            logging.debug(f'connecting to next device failed')
+            client_socket.send(f'connection failed PROTOCOL NOT GOOD'.encode())
+        port_to_send = data.split()[1]
+        port_to_send = (port_to_send.split(':')[0], int(port_to_send.split(':')[1]))
         forward_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             logging.debug(f'connecting to {port_to_send}')
-            forward_socket.connect(('127.0.0.1', port_to_send))
+            forward_socket.connect(port_to_send)
             delay(0.05)
         except socket.error as err:
             logging.debug(f'connecting to {port_to_send} failed')
