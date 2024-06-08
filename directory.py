@@ -1,3 +1,8 @@
+"""
+Author: rugh1
+Date: 1.5.2024
+Description: directory for the TorNetwork project
+"""
 import socket
 from threading import Thread
 import pickle
@@ -44,8 +49,6 @@ def handle_connection(client_socket, client_address):
                 print(err)
             print('\n')
             NODES_UP.remove(ip)
-        # handle the communication
-
     except socket.error as err:
         print('received socket exception - ' + str(err))
     finally:
@@ -53,7 +56,11 @@ def handle_connection(client_socket, client_address):
 
 
 def main():
-    # Open a socket and loop forever while waiting for clients
+    """
+        Main function to open a socket and wait for clients.
+
+        :return: None
+        """
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         server_socket.bind((IP, PORT))

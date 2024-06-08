@@ -1,3 +1,8 @@
+"""
+Author: rugh1
+Date: 20.5.2024
+Description: client for the TorNetwork project
+"""
 import pickle
 import socket
 import random
@@ -15,10 +20,22 @@ LOG_FILE = 'TorNetwork.log'
 
 
 def random_route(nodes_up):
+    """
+        Generate a random route from the list of nodes.
+
+        :param nodes_up: list of nodes available
+        :return: a list representing the random route
+    """
     return list(map(lambda x: x, random.sample(nodes_up, ROUTE_SIZE)))
 
 
 def get_route(server):
+    """
+        Get the route from the directory server.
+
+        :param server: the target server
+        :return: the route or an error code
+    """
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client_socket.connect(DIRECTORY_IP)
@@ -45,6 +62,13 @@ def get_route(server):
 
 
 def set_route(client_socket, route):
+    """
+        Set the route for the client socket.
+
+        :param client_socket: the client's socket
+        :param route: the route to set
+        :return: True if the route is set successfully, False otherwise
+    """
     client_socket.connect((route[0].split(':')[0], int(route[0].split(':')[1])))
     print(route[0], 'OK')
     for i in range(1, len(route)):
@@ -57,6 +81,11 @@ def set_route(client_socket, route):
 
 
 def main():
+    """
+        Main function to start the client, set the route, and handle user input.
+
+        :return: None
+    """
     server = input('enter ip:port to connect:')
     route = get_route(server)
     print(route)

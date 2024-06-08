@@ -1,3 +1,8 @@
+"""
+Author: rugh1
+Date: 20.5.2024
+Description: echo server for the TorNetwork project
+"""
 import os
 import socket
 import threading
@@ -16,6 +21,13 @@ LOG_FILE = 'TorNetwork.log'
 
 # Function to handle client connections
 def handle_client(client_socket, client_address):
+    """
+        Handle a client connection.
+
+        :param client_socket: the connection socket
+        :param client_address: the remote address
+        :return: None
+    """
     print(f"Accepted connection from {client_address}")
     with client_socket:
         while True:
@@ -33,6 +45,13 @@ def handle_client(client_socket, client_address):
 
 
 def start_server(host=IP, port=PORT):
+    """
+        Start the echo server.
+
+        :param host: the server IP address
+        :param port: the server port
+        :return: None
+    """
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((host, port))
     server_socket.listen(5)
@@ -52,5 +71,6 @@ def start_server(host=IP, port=PORT):
 
 
 if __name__ == "__main__":
+    # Call the main handler function
     logging.basicConfig(filename=LOG_FILE, level=LOG_LEVEL, format=LOG_FORMAT)
     start_server()

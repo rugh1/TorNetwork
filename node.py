@@ -1,3 +1,8 @@
+"""
+Author: rugh1
+Date: 1.5.2024
+Description: node for the TorNetwork project
+"""
 import logging
 import socket
 from threading import Thread
@@ -18,6 +23,12 @@ LOG_FILE = 'TorNetwork.log'
 
 
 def delay(sec):
+    """
+        Introduce a delay if TEST_MODE is enabled.
+
+        :param sec: number of seconds to delay
+        :return: None
+    """
     if TEST_MODE:
         time.sleep(sec)
 
@@ -84,6 +95,11 @@ def handle_connection(client_socket, client_address):
 
 
 def ping_directory():
+    """
+    Ping the directory server to keep the connection alive.
+
+    :return: None
+    """
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client_socket.connect(DIRECTORY_IP)
@@ -99,7 +115,11 @@ def ping_directory():
 
 
 def main():
-    # Open a socket and loop forever while waiting for clients
+    """
+       Main function to open a socket and wait for clients.
+
+       :return: None
+    """
     ping_thread = Thread(target=ping_directory)
     ping_thread.start()
 
