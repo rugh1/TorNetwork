@@ -26,9 +26,8 @@ is uses each port as a different type of device required for the Tor Network
 ### closing connection 
 ![closing connection](screenshot/closing.png)
 
-
-
-
+### sequence diagram:
+![diagram](screenshot/diagram.png)
 
 
 
