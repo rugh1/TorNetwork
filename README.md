@@ -28,8 +28,7 @@ is uses each port as a different type of device required for the Tor Network
 
 
 
-### sequence diagram:
-![diagram](screenshot/diagram.png)
+
 
 
 
